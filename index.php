@@ -1,3 +1,16 @@
+<?php
+
+require ('funcoes.php');
+
+if($_POST ['acao']=="adicionar")
+{
+    criarChecklist($_POST['descricao']);
+
+}
+
+   $Checklist = buscarLista();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
