@@ -2,10 +2,22 @@
 
 require ('funcoes.php');
 
-if($_POST ['acao']=="adicionar")
-{
-    criarChecklist($_POST['descricao']);
+if(!empty($_POST ['acao'])){
+	if($_POST ['acao']=="adicionar")
+	{
+	    criarChecklist($_POST['descricao'],$_POST['prazo']);
 
+	}
+
+	else if( $_POST['acao'] == "excluir")
+	{
+	   deletar($_POST['codigo']);
+	     
+	}
+	else if ($_POST['acao']== "concluir")
+	{
+		Concluir($_POST['codigo']);
+	}
 }
 
    $Checklist = buscarLista();
@@ -35,16 +47,19 @@ if($_POST ['acao']=="adicionar")
 
 		<!-- lista de tarefas cadastradas -->
 
+		
+		<?php foreach ($Checklist as $c): ?>
+
 		<div class="card mb-3">
 			<div class="card-body">
-				<h5 class="card-title">Tarefa 1</h5>
-				<p class="card-text text-muted">Prazo: 2 jun</p>
+				<h5 class="card-title"><?= $c['Descricao'] ?></h5>
+				<p class="card-text text-muted"><?= $c['Prazo'] ?></p>
 			</div>
 			<div class="card-footer text-right">
 				
 				<form action="index.php" method="post">
 
-					<!-- dica: colocar um input hidden aqui -->
+					<input type="hidden" name="codigo" value="<?= $c['Codigo'] ?>">
 
 					<button type="submit" name="acao" value="excluir" class="btn btn-link btn-excluir">
 						<span class="oi oi-trash" title="trash"></span>
@@ -59,58 +74,9 @@ if($_POST ['acao']=="adicionar")
 
 			</div>
 		</div>
+	<?php endforeach; ?>
 
-		<div class="card mb-3">
-			<div class="card-body">
-				<h5 class="card-title">Tarefa 2</h5>
-				<p class="card-text text-muted">Prazo: 30 mai</p>
-			</div>
-			<div class="card-footer text-right">
-				
-				<form action="index.php" method="post">
-
-					<!-- dica: colocar um input hidden aqui -->
-
-					<button type="submit" name="acao" value="excluir" class="btn btn-link btn-excluir">
-						<span class="oi oi-trash" title="trash"></span>
-						Excluir
-					</button>
-					<button type="submit" name="acao" value="concluir" class="btn btn-primary">
-						<span class="oi oi-check" title="trash"></span>
-						Concluir
-					</button>
-
-				</form>
-
-			</div>
-		</div>
-
-		<div class="card mb-3">
-			<div class="card-body">
-				<h5 class="card-title">
-					<del>Tarefa 3</del>
-				</h5>
-				<p class="card-text text-muted"></p>
-			</div>
-			<div class="card-footer text-right">
-				
-				<form action="index.php" method="post">
-
-					<!-- dica: colocar um input hidden aqui -->
-
-					<button type="submit" name="acao" value="excluir" class="btn btn-link btn-excluir">
-						<span class="oi oi-trash" title="trash"></span>
-						Excluir
-					</button>
-					<button type="submit" name="acao" value="concluir" class="btn btn-outline-primary" disabled>
-						<span class="oi oi-check" title="trash"></span>
-						Concluir
-					</button>
-
-				</form>
-
-		</div>
-
+		
 
 		<!-- botao flutuante -->
 

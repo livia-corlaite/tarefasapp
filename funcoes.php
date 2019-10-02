@@ -13,15 +13,17 @@ function criarConexao()
 
 }
 
-function CriarChecklist($Descricao)
+function CriarChecklist($Descricao,$Prazo)
 {
 	$conexao=criarConexao();
-	$sql= "Insert into Checklist values (null,?,?)";
-	$comando= $conexao->execute
+	$sql= "Insert into Checklist values (null,?,?,'N')";
+  $comando= $conexao->prepare($sql);
+  $comando->execute
 	   (
 
 		   	[
-		   		$Descricao
+		   		$Descricao,
+          $Prazo
 		   	]
 
 
@@ -32,12 +34,37 @@ function CriarChecklist($Descricao)
 function buscarLista()
 {
   $conexao = criarConexao();
-  $sql= "SELECT * fROM Checklist";
+  $sql= "SELECT * FROM Checklist";
   $comando= $conexao->query($sql);
 
   return $comando->fetchAll();
 
 }
 
+function deletar($codigo)
+{
+  $conexao = criarConexao();
+  $sql = "DELETE FROM  Checklist where codigo = ?";
+  $comando = $conexao->prepare($sql);
+  return $comando->execute(
+    [
+      $codigo
+    ]
+  );
+}
+
+function Concluir ($codigo)
+{
+  $conexao = criarConexao();
+  $sql = "UPDATE Checklist set concluida= 'S' where Codigo = ?";
+  $comando = $conexao->prepare($sql);
+  return $comando->execute(
+    [
+      $codigo
+    ]
+  );
+   
+}
+ 
 
  ?>
