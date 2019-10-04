@@ -5,7 +5,7 @@ require ('funcoes.php');
 if(!empty($_POST ['acao'])){
 	if($_POST ['acao']=="adicionar")
 	{
-	    criarChecklist($_POST['descricao'],$_POST['prazo']);
+	    CriarChecklist($_POST['descricao'],$_POST['prazo']);
 
 	}
 
@@ -17,6 +17,7 @@ if(!empty($_POST ['acao'])){
 	else if ($_POST['acao']== "concluir")
 	{
 		Concluir($_POST['codigo']);
+
 	}
 }
 
@@ -52,7 +53,20 @@ if(!empty($_POST ['acao'])){
 
 		<div class="card mb-3">
 			<div class="card-body">
-				<h5 class="card-title"><?= $c['Descricao'] ?></h5>
+				<h5 class="card-title">
+				
+				<?php if($c['concluida']=='S'): ?>
+
+				<del>
+				<?= $c['Descricao'] ?>
+				</del>
+
+                <?php else: ?>
+                <?= $c['Descricao'] ?>
+
+            <?php endif; ?>
+
+				</h5>
 				<p class="card-text text-muted"><?= $c['Prazo'] ?></p>
 			</div>
 			<div class="card-footer text-right">
